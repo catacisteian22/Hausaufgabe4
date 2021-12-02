@@ -34,10 +34,9 @@ public class MainController {
         Kurs kurs = this.kursController.findKursById(kursId);
 
         if (kurs.getStudentsEnrolled().size() == kurs.getMaxEnrolled())
-            throw new MainControllerExceptions("Kurs ist voll");
-
+            throw new RuntimeException("Kurs ist voll");
         if (student.getTotalCredit() + kurs.getCredits() > 30)
-            throw new MainControllerExceptions("Zu viele ECTS");
+            throw new RuntimeException("Zu viele ECTS");
 
         Boolean kursAddedToStudent = this.studentController.addKursToStudent(studentId, kurs);
         Boolean studentAddedToKurs = this.kursController.addStudentToKurs(kursId, student);
@@ -113,6 +112,7 @@ public class MainController {
         }
         this.kursController.emptyKursStudentList(kursId);
         return this.professorController.updateProfessor(newProfessor) == null;
+
     }
 
     /**

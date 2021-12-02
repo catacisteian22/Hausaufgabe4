@@ -14,14 +14,13 @@ public class Kurs {
     private int credits;
     private List<Long> studentsEnrolled;
 
-    public Kurs(String name, Long professor, int maxEnrolled, long kursId, int credits, List<Long> studentsEnrolled) {
+    public Kurs(String name, Long professorId, int maxEnrolled, long kursId, int credits, List<Long> studentsEnrolled) {
         this.name = name;
-        this.professorId = professor;
+        this.professorId = professorId;
         this.maxEnrolled = maxEnrolled;
         this.kursId = kursId;
         this.credits = credits;
         this.studentsEnrolled = studentsEnrolled;
-
     }
 
     /*
@@ -33,6 +32,14 @@ getter and setter
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     *
+     * @param name des Kurses
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -100,6 +107,7 @@ getter and setter
 
     /**
      * @param studentsEnrolled, list of students thate are enrolled
+     * @param studentsEnrolled
      */
     public void setStudentsEnrolled(List<Long> studentsEnrolled) {
         this.studentsEnrolled = studentsEnrolled;

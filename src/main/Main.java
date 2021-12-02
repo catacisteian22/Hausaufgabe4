@@ -1,13 +1,11 @@
 package main;
 
-import main.controller.CourseController;
+import main.controller.KursController;
 import main.controller.MainController;
 import main.controller.StudentController;
 import main.controller.ProfessorController;
 import main.model.Professor;
 import main.model.Student;
-import main.model.Teacher;
-import com.company.repository.*;
 import main.view.AnmeldungSystem;
 import main.repository.KursFileRepository;
 import main.repository.CrudRepository;
@@ -18,9 +16,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        KursFileRepository kursRepo = new KursFileRepository("D:\\University\\Info\\materii\\MAP\\tema\\tema3\\src\\com\\company\\RepoData\\Course.txt");
-        CrudRepository<Student> studentRepo = new StudentFileRepository("D:\\University\\Info\\materii\\MAP\\tema\\tema3\\src\\com\\company\\RepoData\\Student.txt", kursRepo);
-        CrudRepository<Professor> professorRepo = new ProfessorFileRepository("D:\\University\\Info\\materii\\MAP\\tema\\tema3\\src\\com\\company\\RepoData\\Teacher.txt",kursRepo);
+        KursFileRepository kursRepo = new KursFileRepository("C:\\Users\\catac\\OneDrive\\Desktop\\Scoala\\MAP\\Labor_Hausaufgaben\\Hausaufgabe4\\src\\main\\dateien\\Kurs.txt");
+        CrudRepository<Student> studentRepo = new StudentFileRepository("C:\\Users\\catac\\OneDrive\\Desktop\\Scoala\\MAP\\Labor_Hausaufgaben\\Hausaufgabe4\\src\\main\\dateien\\Student.txt", kursRepo);
+        CrudRepository<Professor> professorRepo = new ProfessorFileRepository("C:\\Users\\catac\\OneDrive\\Desktop\\Scoala\\MAP\\Labor_Hausaufgaben\\Hausaufgabe4\\src\\main\\dateien\\Professor.txt",kursRepo);
         kursRepo.setStudentRepo(studentRepo);
         kursRepo.setProfessorRepo(professorRepo);
 

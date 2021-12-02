@@ -36,7 +36,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
         try {
             kursFileReader = new FileReader(kursFile);
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
 
         BufferedReader kursBufferReader = new BufferedReader(kursFileReader);
@@ -66,7 +66,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
             BufferedWriter kursBufferWriter = new BufferedWriter(kursFileWriter);
             kursBufferWriter.write(entity.getName() + "," + entity.getProfessor() + "," + entity.getMaxEnrolled() + "," + entity.getKursId() + "," + entity.getCredits() + "\n");
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }
@@ -84,7 +84,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
             kursPrintWriter.close();
             kursFileWriter.close();
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
 
         try {
@@ -94,7 +94,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
                 if (kurs.getKursId() != entity.getKursId())
                     kursBufferWriter.write(kurs.getName() + "," + kurs.getProfessor() + "," + kurs.getMaxEnrolled() + "," + kurs.getKursId() + "," + kurs.getCredits() + "\n");
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }
@@ -112,7 +112,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
             kursPrintWriter.close();
             kursFileWriter.close();
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
 
         try {
@@ -124,7 +124,7 @@ public class KursFileRepository implements IFileRepository<Kurs> {
                 else
                     kursBufferWriter.write(entity.getName() + "," + entity.getProfessor() + "," + entity.getMaxEnrolled() + "," + entity.getKursId() + "," + entity.getCredits() + "\n");
         } catch (Exception e) {
-            throw new KursRepoExceptions("file not found");
+            throw new KursRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }

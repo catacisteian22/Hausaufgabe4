@@ -1,0 +1,3 @@
+Maria,Balota,1,0
+Alex,Fanatan,2,0
+Corina,Lepinzan,3,0

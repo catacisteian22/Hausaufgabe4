@@ -77,15 +77,15 @@ public class KursInMemoryRepo implements CrudRepository<Kurs>{
      * @throws KursRepoExceptions, ob die Liste der Kurse leer ist
      */
     @Override
-    public Course delete(Course entity) {
+    public Kurs delete(Kurs entity) {
 
         if(kurse.isEmpty())
         {
-            throw new KursRepoExceptions("Course list is empty");
+            throw new KursRepoExceptions("Error! Liste der Kurse ist leer!");
         }
         else
         {
-            for (Course c : kurse)
+            for (Kurs c : kurse)
             {
                 if (c.equals(entity))
                 {
@@ -98,18 +98,18 @@ public class KursInMemoryRepo implements CrudRepository<Kurs>{
     }
 
     /**
-     * @param entity entity must not be null
-     * @return null if the entity is updated, otherwise returns the entity
+     * @param entity Entity muss nicht NULL sein
+     * @return NULL, ob die Entity aktualisiert ist, andernfalls gibt die Entity zurück
      */
     @Override
-    public Course update(Course entity) {
+    public Kurs update(Kurs entity) {
 
-        for(Course course: kurse) {
-            if (course.getCourseId() == entity.getCourseId()) {
-                course.setName(entity.getName());
-                course.setTeacher(entity.getTeacher());
-                course.setMaxEnrolled(entity.getMaxEnrolled());
-                course.setCredits(entity.getCredits());
+        for(Kurs kurs: kurse) {
+            if (kurs.getKursId() == entity.getKursId()) {
+                kurs.setName(entity.getName());
+                kurs.setProfessor(entity.getProfessor());
+                kurs.setMaxEnrolled(entity.getMaxEnrolled());
+                kurs.setCredits(entity.getCredits());
                 return null;
             }
         }

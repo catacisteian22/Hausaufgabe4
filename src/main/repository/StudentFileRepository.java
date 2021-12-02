@@ -1,5 +1,5 @@
 package main.repository;
-import com.company.model.Course;
+import main.model.Kurs;
 import main.model.Student;
 import main.exceptions.RepositoryExceptions.StudentRepoExceptions;
 
@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 public class StudentFileRepository implements IFileRepository<Student> {
 
     private final String fileName;
-    private final CrudRepository<Course> courseRepository;
+    private final CrudRepository<Kurs> kursRepository;
 
-    public StudentFileRepository(String fileName, CrudRepository<Course> courseRepository) {
+    public StudentFileRepository(String fileName, CrudRepository<Kurs> kursRepository) {
         this.fileName = fileName;
-        this.courseRepository = courseRepository;
+        this.kursRepository = kursRepository;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class StudentFileRepository implements IFileRepository<Student> {
         try {
             studentFileReader = new FileReader(studentFile);
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
 
         BufferedReader studentBufferReader = new BufferedReader(studentFileReader);
@@ -42,15 +42,15 @@ public class StudentFileRepository implements IFileRepository<Student> {
         while (studentScanner.hasNextLine()) {
             String studentLine = studentScanner.nextLine();
             List<String> stringList = List.of(studentLine.split(","));
-            List<Course> studentCourseList = new ArrayList<>();
-            courseRepository.findAll()
-                    .forEach(course -> {
-                        if (course.getStudentsEnrolled().stream().filter(student ->
+            List<Kurs> studentKurseList = new ArrayList<>();
+            kursRepository.findAll()
+                    .forEach(kurs -> {
+                        if (kurs.getStudentsEnrolled().stream().filter(student ->
                                 student == Integer.parseInt(stringList.get(2))).toList().size() != 0)
-                            studentCourseList.add(course);
+                            studentKurseList.add(kurs);
                     });
 
-            Student s1 = new Student(stringList.get(0), stringList.get(1), Integer.parseInt(stringList.get(2)), Integer.parseInt(stringList.get(3)), studentCourseList);
+            Student s1 = new Student(stringList.get(0), stringList.get(1), Integer.parseInt(stringList.get(2)), Integer.parseInt(stringList.get(3)), studentKurseList);
             studentList.add(s1);
         }
 
@@ -60,7 +60,7 @@ public class StudentFileRepository implements IFileRepository<Student> {
             studentFileReader.close();
         }
         catch(Exception e){
-            throw new StudentRepoExceptions("the file couldn't be cloe correctly");
+            throw new StudentRepoExceptions("Die Datei konnte nicht richtig geschlossen werden");
         }
 
 
@@ -74,9 +74,9 @@ public class StudentFileRepository implements IFileRepository<Student> {
         try {
             studentFileWriter = new FileWriter(studentFile, true);
             BufferedWriter studentBufferWriter = new BufferedWriter(studentFileWriter);
-            studentBufferWriter.write(entity.getName() + "," + entity.getFirstName() + "," + entity.getStudentId() + "," + entity.getTotalCredit() + "\n");
+            studentBufferWriter.write(entity.getLastName() + "," + entity.getFirstName() + "," + entity.getStudentId() + "," + entity.getTotalCredit() + "\n");
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }
@@ -95,7 +95,7 @@ public class StudentFileRepository implements IFileRepository<Student> {
             studentPrintWriter.close();
             studentFileWriter.close();
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
 
         try {
@@ -103,9 +103,9 @@ public class StudentFileRepository implements IFileRepository<Student> {
             BufferedWriter studentBufferWriter = new BufferedWriter(studentFileWriter);
             for (Student student : studentList)
                 if (student.getStudentId() != entity.getStudentId())
-                    studentBufferWriter.write(student.getName() + "," + student.getFirstName() + "," + student.getStudentId() + "," + student.getTotalCredit() + "\n");
+                    studentBufferWriter.write(student.getLastName() + "," + student.getFirstName() + "," + student.getStudentId() + "," + student.getTotalCredit() + "\n");
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }
@@ -124,7 +124,7 @@ public class StudentFileRepository implements IFileRepository<Student> {
             studentPrintWriter.close();
             studentFileWriter.close();
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
 
         try {
@@ -132,11 +132,11 @@ public class StudentFileRepository implements IFileRepository<Student> {
             BufferedWriter studentBufferWriter = new BufferedWriter(studentFileWriter);
             for (Student student : studentList)
                 if (student.getStudentId() != entity.getStudentId())
-                    studentBufferWriter.write(student.getName() + "," + student.getFirstName() + "," + student.getStudentId() + "," + student.getTotalCredit() + "\n");
+                    studentBufferWriter.write(student.getLastName() + "," + student.getFirstName() + "," + student.getStudentId() + "," + student.getTotalCredit() + "\n");
                 else
-                    studentBufferWriter.write(entity.getName() + "," + entity.getFirstName() + "," + entity.getStudentId() + "," + entity.getTotalCredit() + "\n");
+                    studentBufferWriter.write(entity.getLastName() + "," + entity.getFirstName() + "," + entity.getStudentId() + "," + entity.getTotalCredit() + "\n");
         } catch (Exception e) {
-            throw new StudentRepoExceptions("file not found");
+            throw new StudentRepoExceptions("Datei nicht gefunden");
         }
         return entity;
     }

@@ -1,7 +1,7 @@
 package test;
 
 import main.model.Professor;
-import main.model.Teacher;
+import main.repository.ProfessorInMemoryRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
