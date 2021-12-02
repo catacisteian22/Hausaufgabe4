@@ -54,23 +54,23 @@ class KursInMemoryRepositoryTest {
         List<Kurs> kursList = (List<Kurs>) kursInMemoryRepo.findAll();
         assertEquals(1, kursList.size());
     }
-//
-//    @Test
-//    void delete() {
-//        Kurs c1 = new Kurs("C1", null, 100, 1, null, 6);
-//        Kurs c2 = new Kurs("C2", null, 2, 2, null, 25);
-//        Kurs c3 = new Kurs("C3", null, 50, 3, null, 4);
-//        KursInMemoryRepo kursInMemoryRepo = new KursInMemoryRepo(new ArrayList<>());
-//        kursInMemoryRepo.save(c1);
-//        kursInMemoryRepo.save(c2);
-//        kursInMemoryRepo.save(c3);
-//
-//        List<Kurs> kursList = (List<Kurs>) kursInMemoryRepo.findAll();
-//        assertEquals(3, kursList.size());
-//
-//        kursInMemoryRepo.delete(c2);
-//        assertEquals(2, kursList.size());
-//    }
+
+    @Test
+    void delete() {
+        Kurs c1 = new Kurs("C1", null, 100, 1, 6, null);
+        Kurs c2 = new Kurs("C2", null, 2, 2, 25, null);
+        Kurs c3 = new Kurs("C3", null, 50, 3, 4, null);
+        KursInMemoryRepo kursInMemoryRepo = new KursInMemoryRepo(new ArrayList<>());
+        kursInMemoryRepo.save(c1);
+        kursInMemoryRepo.save(c2);
+        kursInMemoryRepo.save(c3);
+
+        List<Kurs> kursList = (List<Kurs>) kursInMemoryRepo.findAll();
+        assertEquals(3, kursList.size());
+
+        kursInMemoryRepo.delete(c2);
+        assertEquals(2, kursList.size());
+    }
 //
 //    @Test
 //    void update() {
