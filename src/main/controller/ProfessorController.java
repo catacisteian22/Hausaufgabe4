@@ -3,9 +3,6 @@ import main.model.Professor;
 import main.exceptions.ControllerExceptions.ControllerExceptions;
 import main.repository.CrudRepository;
 
-/**
- * @author sncam
- */
 public class ProfessorController {
     private CrudRepository<Professor> repository;
 

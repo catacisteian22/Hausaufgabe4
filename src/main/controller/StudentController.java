@@ -7,9 +7,6 @@ import main.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * @author sncam
- */
 public class StudentController {
     private CrudRepository<Student> repository;
 

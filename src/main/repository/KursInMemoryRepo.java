@@ -5,10 +5,6 @@ import main.model.Kurs;
 
 import java.util.List;
 
-
-/**
- * @author sncam
- */
 public class KursInMemoryRepo implements CrudRepository<Kurs>{
 
     private List<Kurs> kurse;

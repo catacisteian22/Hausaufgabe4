@@ -6,9 +6,6 @@ import main.exceptions.RepositoryExceptions.StudentRepoExceptions;
 
 import java.util.List;
 
-/**
- * @author sncam
- */
 public class StudentInMemoryRepo implements CrudRepository<Student> {
     private List<Student> student;
 

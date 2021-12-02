@@ -5,9 +5,6 @@ import main.model.Professor;
 
 import java.util.List;
 
-/**
- * @author sncam
- */
 public class ProfessorInMemoryRepo implements CrudRepository<Professor> {
 
     private List<Professor> professor;

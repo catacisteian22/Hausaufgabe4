@@ -7,9 +7,6 @@ import main.exceptions.ControllerExceptions.MainControllerExceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author sncam
- */
 public class MainController {
 
     private final KursController kursController;

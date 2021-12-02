@@ -2,9 +2,6 @@ package main.model;
 
 import java.util.List;
 
-/**
- * @author sncam
- */
 public class Kurs {
 
     private String name;
