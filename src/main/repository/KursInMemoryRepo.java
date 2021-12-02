@@ -1,40 +1,43 @@
 package main.repository;
-import com.company.model.Course;
-import main.exceptions.RepositoryExceptions.CourseRepoExceptions;
+
+import main.exceptions.RepositoryExceptions.KursRepoExceptions;
+import main.model.Kurs;
 
 import java.util.List;
+
 
 /**
  * @author sncam
  */
-public class KursInMemoryRepo implements CrudRepository<Course>{
-    private List<Course> courses;
+public class KursInMemoryRepo implements CrudRepository<Kurs>{
 
-    public KursInMemoryRepo(List<Course> courses) {
-        this.courses = courses;
+    private List<Kurs> kurse;
+
+    public KursInMemoryRepo(List<Kurs> courses) {
+        this.kurse = kurse;
     }
 
     /**
-     * @param id -the id of the entity to be returned id must not be null
-     * @return the entity with the specified id or null if there is no entity with the given id
-     * @throws CourseRepoExceptions if the id is null or student list is empty
+     * @param id -die ID der Entity, die zurückgegeben sein muss(muss nicht NULL sein)
+     * @return die Entity mit der spezifizierten ID oder NULL (ob keine Entity mit dieser ID existiert)
+     * @throws KursRepoExceptions, ob die ID NULL ist oder die Liste der Kurse leer ist
      */
     @Override
-    public Course findOne(Long id) {
+    public Kurs findOne(Long id) {
         System.out.println(id);
-        System.out.println(courses);
-        if (courses.isEmpty())
+        System.out.println(kurse);
+        if (kurse.isEmpty())
         {
-            throw new CourseRepoExceptions("Course list is empty");
+            throw new KursRepoExceptions("Error! Liste der Kurse ist leer!");
         }
         if(id==null)
         {
-            throw new CourseRepoExceptions("Id can't be null");
+            throw new KursRepoExceptions("Error! ID darf nicht NULL sein");
         }
         else
         {
-            for (Course c : courses) {
-                if (id == c.getCourseId()) {
+            for (Kurs c : kurse) {
+                if (id == c.getKursId()) {
                     return c;
                 }
             }
@@ -43,50 +46,50 @@ public class KursInMemoryRepo implements CrudRepository<Course>{
     }
 
     /**
-     * @return all entities
+     * @return alle Entities
      */
     @Override
-    public Iterable<Course> findAll() {
-        return courses;
+    public Iterable<Kurs> findAll() {
+        return kurse;
     }
 
     /**
-     * @param entity entity must be not null
-     * @return null if the given entity is saved, otherwise returns the entity (id already exists)
+     * @param entity Entity muss nicht NULL sein
+     * @return NULL, ob die gegebene Entity gespeichert war, andernfalls gibt die Entity zurück(ID existiert schon)
      */
     @Override
-    public Course save(Course entity) {
-        for(Course c:courses)
+    public Kurs save(Kurs entity) {
+        for(Kurs c: kurse)
         {
             if(c.equals(entity))
             {
                 return c;
             }
         }
-        courses.add(entity);
+        kurse.add(entity);
         return null;
 
     }
 
     /**
-     * @param entity entity must be not null
-     * @return the removed entity or null if there is no entity with the given id
-     * @throws RuntimeException if course list is empty
+     * @param entity Entity muss nicht NULL sein
+     * @return die entfernte Entity oder NULL, ob keine Entity mit der gegebene ID existiert
+     * @throws KursRepoExceptions, ob die Liste der Kurse leer ist
      */
     @Override
     public Course delete(Course entity) {
 
-        if(courses.isEmpty())
+        if(kurse.isEmpty())
         {
-            throw new CourseRepoExceptions("Course list is empty");
+            throw new KursRepoExceptions("Course list is empty");
         }
         else
         {
-            for (Course c : courses)
+            for (Course c : kurse)
             {
                 if (c.equals(entity))
                 {
-                    courses.remove(entity);
+                    kurse.remove(entity);
                     return entity;
                 }
             }
@@ -101,7 +104,7 @@ public class KursInMemoryRepo implements CrudRepository<Course>{
     @Override
     public Course update(Course entity) {
 
-        for(Course course: courses) {
+        for(Course course: kurse) {
             if (course.getCourseId() == entity.getCourseId()) {
                 course.setName(entity.getName());
                 course.setTeacher(entity.getTeacher());

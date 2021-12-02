@@ -2,7 +2,7 @@ package main.repository;
 import com.company.model.Course;
 import main.model.Teacher;
 import main.exceptions.RepositoryExceptions.StudentRepoExceptions;
-import main.exceptions.RepositoryExceptions.TeacherRepoExceptions;
+import main.exceptions.RepositoryExceptions.ProfessorRepoExceptions;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ProfessorFileRepository implements IFileRepository<Teacher> {
         try {
             teacherFileReader = new FileReader(teacherFile);
         } catch (Exception e) {
-            throw new TeacherRepoExceptions("file not found");
+            throw new ProfessorRepoExceptions("file not found");
         }
 
         BufferedReader teacherBufferReader = new BufferedReader(teacherFileReader);
@@ -83,7 +83,7 @@ public class ProfessorFileRepository implements IFileRepository<Teacher> {
             teacherPrintWriter.close();
             teacherFileWriter.close();
         } catch (Exception e) {
-            throw new TeacherRepoExceptions("file not found");
+            throw new ProfessorRepoExceptions("file not found");
         }
 
         try {
@@ -93,7 +93,7 @@ public class ProfessorFileRepository implements IFileRepository<Teacher> {
                 if (teacher.getTeacherId() != entity.getTeacherId())
                     teacherBufferWriter.write(teacher.getName() + "," + teacher.getFirstName() + "," + teacher.getTeacherId() + "," + "\n");
         } catch (Exception e) {
-            throw new TeacherRepoExceptions("file not found");
+            throw new ProfessorRepoExceptions("file not found");
         }
         return entity;
     }
@@ -111,7 +111,7 @@ public class ProfessorFileRepository implements IFileRepository<Teacher> {
             teacherPrintWriter.close();
             teacherFileWriter.close();
         } catch (Exception e) {
-            throw new TeacherRepoExceptions("file not found");
+            throw new ProfessorRepoExceptions("file not found");
         }
 
         try {
@@ -123,7 +123,7 @@ public class ProfessorFileRepository implements IFileRepository<Teacher> {
                 else
                     teacherBufferWriter.write(entity.getName() + "," + entity.getFirstName() + "," + entity.getTeacherId() + "," + "\n");
         } catch (Exception e) {
-            throw new TeacherRepoExceptions("file not found");
+            throw new ProfessorRepoExceptions("file not found");
         }
         return entity;
     }

@@ -96,13 +96,12 @@ public class KursController {
      *
      * @return sortierte Liste von Kurse
      */
-    public List<Kurs> getSortedKurseByName(){
+    public List<Kurs> getSortierteKurseByName(){
         List<Kurs> kurseList = (List<Kurs>) this.repository.findAll();
         return kurseList.stream().sorted((Kurs c1, Kurs c2)->c1.getName().compareTo(c2.getName())).toList();
     }
 
     /**
-     *
      * @param maxCredit maximale Anzahl von ECTS, die ein Kurs haben kann
      * @return die gefilterte Liste von Kurse
      */
@@ -116,7 +115,7 @@ public class KursController {
      * @param minCredit minimale Anzahl von ECTS, die ein Kurs haben kann
      * @return die gefilterte Liste von Kurse
      */
-    public List<Kurs> getFilteredKurseByCreditsMin(int minCredit){
+    public List<Kurs> getGefilterteKurseByCreditsMin(int minCredit){
         List<Kurs> kurseList = (List<Kurs>) this.repository.findAll();
         return kurseList.stream().filter(s1->s1.getCredits()>minCredit).toList();
     }

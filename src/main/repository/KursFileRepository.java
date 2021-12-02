@@ -1,9 +1,9 @@
 package main.repository;
 
-import com.company.model.Course;
+import main.model.Kurs;
+import main.model.Professor;
 import main.model.Student;
-import main.model.Teacher;
-import main.exceptions.RepositoryExceptions.CourseRepoExceptions;
+import main.exceptions.RepositoryExceptions.KursRepoExceptions;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class KursFileRepository implements IFileRepository<Course> {
+public class KursFileRepository implements IFileRepository<Kurs> {
 
     private CrudRepository<Student> studentRepo;
-    private CrudRepository<Teacher> teacherRepo;
+    private CrudRepository<Professor> professorRepo;
     private String fileName;
 
     public KursFileRepository(String fileName) {
@@ -23,108 +23,108 @@ public class KursFileRepository implements IFileRepository<Course> {
     }
 
     @Override
-    public Course findOne(Long id) {
-        List<Course> courseList = new ArrayList<>();
-        this.findAll().forEach(courseList::add);
-        return courseList.stream().filter(course -> course.getCourseId() == id).collect(Collectors.toList()).get(0);
+    public Kurs findOne(Long id) {
+        List<Kurs> kurseList = new ArrayList<>();
+        this.findAll().forEach(kurseList::add);
+        return kurseList.stream().filter(course -> course.getKursId() == id).collect(Collectors.toList()).get(0);
     }
 
     @Override
-    public Iterable<Course> findAll() {
-        File courseFile = new File(fileName);
-        FileReader courseFileReader;
+    public Iterable<Kurs> findAll() {
+        File kursFile = new File(fileName);
+        FileReader kursFileReader;
         try {
-            courseFileReader = new FileReader(courseFile);
+            kursFileReader = new FileReader(kursFile);
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
 
-        BufferedReader courseBufferReader = new BufferedReader(courseFileReader);
-        Scanner courseScanner = new Scanner(courseBufferReader);
-        List<Course> courseList = new ArrayList<>();
-        while (courseScanner.hasNextLine()) {
-            String courseLine = courseScanner.nextLine();
-            List<String> stringList = List.of(courseLine.split(","));
+        BufferedReader kursBufferReader = new BufferedReader(kursFileReader);
+        Scanner kursScanner = new Scanner(kursBufferReader);
+        List<Kurs> kurseList = new ArrayList<>();
+        while (kursScanner.hasNextLine()) {
+            String kursLine = kursScanner.nextLine();
+            List<String> stringList = List.of(kursLine.split(","));
 
             String listOfIds = stringList.get(stringList.size() - 1);
             listOfIds = listOfIds.substring(1, listOfIds.length() - 1);
 
             List<Long> studentIdList = Stream.of(listOfIds.split(";")).map(Long::parseLong).toList();
 
-            Course c1 = new Course(stringList.get(0), Long.parseLong(stringList.get(1)), Integer.parseInt(stringList.get(2)), Integer.parseInt(stringList.get(3)), Integer.parseInt(stringList.get(3)), studentIdList);
-            courseList.add(c1);
+            Kurs c1 = new Kurs(stringList.get(0), Long.parseLong(stringList.get(1)), Integer.parseInt(stringList.get(2)), Integer.parseInt(stringList.get(3)), Integer.parseInt(stringList.get(3)), studentIdList);
+            kurseList.add(c1);
         }
-        return courseList;
+        return kurseList;
     }
 
     @Override
-    public Course save(Course entity) {
-        File courseFile = new File(fileName);
-        FileWriter courseFileWriter;
+    public Kurs save(Kurs entity) {
+        File kursFile = new File(fileName);
+        FileWriter kursFileWriter;
         try {
-            courseFileWriter = new FileWriter(courseFile, true);
-            BufferedWriter courseBufferWriter = new BufferedWriter(courseFileWriter);
-            courseBufferWriter.write(entity.getName() + "," + entity.getTeacher() + "," + entity.getMaxEnrolled() + "," + entity.getCourseId() + "," + entity.getCredits() + "\n");
+            kursFileWriter = new FileWriter(kursFile, true);
+            BufferedWriter kursBufferWriter = new BufferedWriter(kursFileWriter);
+            kursBufferWriter.write(entity.getName() + "," + entity.getProfessor() + "," + entity.getMaxEnrolled() + "," + entity.getKursId() + "," + entity.getCredits() + "\n");
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
         return entity;
     }
 
     @Override
-    public Course delete(Course entity) throws Exception {
-        List<Course> courseList = new ArrayList<>();
-        this.findAll().forEach(courseList::add);
-        File courseFile = new File(fileName);
-        FileWriter courseFileWriter;
+    public Kurs delete(Kurs entity) throws Exception {
+        List<Kurs> kurseList = new ArrayList<>();
+        this.findAll().forEach(kurseList::add);
+        File kursFile = new File(fileName);
+        FileWriter kursFileWriter;
         try {
-            courseFileWriter = new FileWriter(courseFile, false);
-            PrintWriter coursePrintWriter = new PrintWriter(courseFileWriter, false);
-            coursePrintWriter.print("");
-            coursePrintWriter.close();
-            courseFileWriter.close();
+            kursFileWriter = new FileWriter(kursFile, false);
+            PrintWriter kursPrintWriter = new PrintWriter(kursFileWriter, false);
+            kursPrintWriter.print("");
+            kursPrintWriter.close();
+            kursFileWriter.close();
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
 
         try {
-            courseFileWriter = new FileWriter(courseFile, true);
-            BufferedWriter courseBufferWriter = new BufferedWriter(courseFileWriter);
-            for (Course course : courseList)
-                if (course.getCourseId() != entity.getCourseId())
-                    courseBufferWriter.write(course.getName() + "," + course.getTeacher() + "," + course.getMaxEnrolled() + "," + course.getCourseId() + "," + course.getCredits() + "\n");
+            kursFileWriter = new FileWriter(kursFile, true);
+            BufferedWriter kursBufferWriter = new BufferedWriter(kursFileWriter);
+            for (Kurs kurs : kurseList)
+                if (kurs.getKursId() != entity.getKursId())
+                    kursBufferWriter.write(kurs.getName() + "," + kurs.getProfessor() + "," + kurs.getMaxEnrolled() + "," + kurs.getKursId() + "," + kurs.getCredits() + "\n");
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
         return entity;
     }
 
     @Override
-    public Course update(Course entity) {
-        List<Course> courseList = new ArrayList<>();
-        this.findAll().forEach(courseList::add);
-        File courseFile = new File(fileName);
-        FileWriter courseFileWriter;
+    public Kurs update(Kurs entity) {
+        List<Kurs> kurseList = new ArrayList<>();
+        this.findAll().forEach(kurseList::add);
+        File kursFile = new File(fileName);
+        FileWriter kursFileWriter;
         try {
-            courseFileWriter = new FileWriter(courseFile, false);
-            PrintWriter coursePrintWriter = new PrintWriter(courseFileWriter, false);
-            coursePrintWriter.print("");
-            coursePrintWriter.close();
-            courseFileWriter.close();
+            kursFileWriter = new FileWriter(kursFile, false);
+            PrintWriter kursPrintWriter = new PrintWriter(kursFileWriter, false);
+            kursPrintWriter.print("");
+            kursPrintWriter.close();
+            kursFileWriter.close();
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
 
         try {
-            courseFileWriter = new FileWriter(courseFile, true);
-            BufferedWriter courseBufferWriter = new BufferedWriter(courseFileWriter);
-            for (Course course : courseList)
-                if (course.getCourseId() != entity.getCourseId())
-                    courseBufferWriter.write(course.getName() + "," + course.getTeacher() + "," + course.getMaxEnrolled() + "," + course.getCourseId() + "," + course.getCredits() + "\n");
+            kursFileWriter = new FileWriter(kursFile, true);
+            BufferedWriter kursBufferWriter = new BufferedWriter(kursFileWriter);
+            for (Kurs kurs : kurseList)
+                if (kurs.getKursId() != entity.getKursId())
+                    kursBufferWriter.write(kurs.getName() + "," + kurs.getProfessor() + "," + kurs.getMaxEnrolled() + "," + kurs.getKursId() + "," + kurs.getCredits() + "\n");
                 else
-                    courseBufferWriter.write(entity.getName() + "," + entity.getTeacher() + "," + entity.getMaxEnrolled() + "," + entity.getCourseId() + "," + entity.getCredits() + "\n");
+                    kursBufferWriter.write(entity.getName() + "," + entity.getProfessor() + "," + entity.getMaxEnrolled() + "," + entity.getKursId() + "," + entity.getCredits() + "\n");
         } catch (Exception e) {
-            throw new CourseRepoExceptions("file not found");
+            throw new KursRepoExceptions("file not found");
         }
         return entity;
     }
@@ -138,7 +138,7 @@ public class KursFileRepository implements IFileRepository<Course> {
         this.studentRepo = studentRepo;
     }
 
-    public void setProfessorRepo(CrudRepository<Teacher> teacherRepo) {
-        this.teacherRepo = teacherRepo;
+    public void setProfessorRepo(CrudRepository<Professor> professorRepo) {
+        this.professorRepo = professorRepo;
     }
 }

@@ -1,8 +1,7 @@
 package main.controller;
-import com.company.model.Course;
 import main.model.Kurs;
+import main.model.Professor;
 import main.model.Student;
-import main.model.Teacher;
 import main.exceptions.ControllerExceptions.MainControllerExceptions;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.List;
  * @author sncam
  */
 public class MainController {
+
     private final KursController kursController;
     private final StudentController studentController;
     private final ProfessorController professorController;
@@ -22,13 +22,7 @@ public class MainController {
         this.studentController = studentController;
         this.professorController = professorController;
     }
-    /**
-     *
-     * @param studentId id of the student
-     * @param courseId  id of the course
 
-     * @return the methode courseAddedToStudent or studentAddedToCourse
-     */
     /**
      * @param studentId ID des Studenten
      * @param kursId ID des Kurses
@@ -52,113 +46,105 @@ public class MainController {
     }
 
     /**
-     *
-     * @return all the course
+     * @return alle Kurse
      */
-    public Iterable<Course> getAllCourses(){
-        return this.courseController.getAllCourses();
+    public Iterable<Kurs> getAllKurse() {
+        return this.kursController.getAllKurse();
     }
 
     /**
-     *
-     * @param courseId id of the course
-     * @return all the student of the course with the matching id
+     * @param kursId ID des Kurses
+     * @return alle Studenten des Kurses mit übereinstimmender ID
      */
-    public Iterable<Student> getAllStudentsByCourseId(Long courseId){
+    public Iterable<Student> getAllStudentsByKursId(Long kursId) {
         List<Student> studentList = new ArrayList<>();
-        List<Long> studentsId = this.courseController.findCourseById(courseId).getStudentsEnrolled();
+        List<Long> studentsId = this.kursController.findKursById(kursId).getStudentsEnrolled();
         studentsId.forEach(studentId -> studentList.add(this.studentController.findStudentById(studentId)));
         return studentList;
     }
 
     /**
-     *
-     * @return all the available courses
+     * @return alle Kurse mit freie Plätze
      */
-    public Iterable<Course> getAllAvailableCourses(){
-        return this.courseController.getAvailableCourses();
+    public Iterable<Kurs> getAllAvailableKurse() {
+        return this.kursController.getAvailableKurse();
     }
 
     /**
-     *
-     * @param courseName the name of the course
-     * @param teacherId the id of the teacher in this course
-     * @param maxEnrolled number of max student for this course
-     * @param courseId id of this course
-     * @param credits the credits of the course
-     * @return the updated course
+     * @param kursName    Name des Kurses
+     * @param professorId ID des Professors für diesen Kurs
+     * @param maxEnrolled maximale Anzahl von Studenten für diesen Kurs
+     * @param kursId      ID des Kurses
+     * @param credits     die ECTS des Kurses
+     * @return der aktualisierte Kurs
      */
-    public boolean updateCourse(String courseName, long teacherId, int maxEnrolled, long courseId, int credits){
-        Course existingCourse = this.courseController.findCourseById(courseId);
-        Course course = new Course(courseName, teacherId, maxEnrolled, courseId, credits, null);
-        if(existingCourse.getCredits() != credits)
-        {
-            for(Long studentId: existingCourse.getStudentsEnrolled()){
+    public boolean updateKurs(String kursName, long professorId, int maxEnrolled, long kursId, int credits) {
+        Kurs existingKurs = this.kursController.findKursById(kursId);
+        Kurs kurs = new Kurs(kursName, professorId, maxEnrolled, kursId, credits, null);
+        if (existingKurs.getCredits() != credits) {
+            for(Long studentId: existingKurs.getStudentsEnrolled()){
                 Student student = studentController.findStudentById(studentId);
-                Student newStudent = new Student(student.getName(),student.getFirstName(),student.getStudentId(),student.getTotalCredit(),student.getEnrolledCourses());
-                newStudent.getEnrolledCourses().removeIf(course1->course1.getCourseId()==courseId);
-                newStudent.getEnrolledCourses().add(course);
+                Student newStudent = new Student(student.getLastName(),student.getFirstName(),student.getStudentId(),student.getTotalCredit(),student.getEnrolledKurse());
+                newStudent.getEnrolledKurse().removeIf(course1->course1.getKursId()==kursId);
+                newStudent.getEnrolledKurse().add(kurs);
                 this.studentController.updateStudent(newStudent);
             }
         }
-        return this.courseController.updateCourse(course) == null;
+        return this.kursController.updateKurs(kurs) == null;
     }
 
     /**
-     *
-     * @param courseId id of the course
-     * @param teacherId id of the teacher
-     * @return true or false if the new teacher was updated or not
+     * @param kursId      ID des Kurses
+     * @param professorId ID des Professors
+     * @return True or False, ob der neue Professor war aktualisiert oder nicht
      */
-    public boolean deleteCourseFromTeacher(long courseId, long teacherId){
-        Teacher existingTeacher = this.teacherController.findById(teacherId);
-        List<Course> newCourseList = existingTeacher.getCourses();
-        newCourseList.removeIf(course1->course1.getCourseId()==courseId);
+    public boolean deleteKursFromProfessor(long kursId, long professorId) {
+        Professor existingProfessor = this.professorController.findById(professorId);
+        List<Kurs> newKursList = existingProfessor.getKurse();
+        newKursList.removeIf(kurs1 -> kurs1.getKursId() == kursId);
 
-        Teacher newTeacher= new Teacher(existingTeacher.getName(), existingTeacher.getFirstName(), existingTeacher.getTeacherId(), newCourseList);
-        Course course = this.courseController.findCourseById(courseId);
-        for(Long studentId: course.getStudentsEnrolled()){
+        Professor newProfessor = new Professor(existingProfessor.getLastName(), existingProfessor.getFirstName(), existingProfessor.getProfessorId(), newKursList);
+        Kurs kurs = this.kursController.findKursById(kursId);
+        for(Long studentId: kurs.getStudentsEnrolled()){
             Student student = this.studentController.findStudentById(studentId);
-            Student newStudent = new Student(student.getName(),student.getFirstName(),student.getStudentId(),student.getTotalCredit(),student.getEnrolledCourses());
-            newStudent.getEnrolledCourses().removeIf(course1 -> course1.getCourseId()==courseId);
+            Student newStudent = new Student(student.getLastName(), student.getFirstName(), student.getStudentId(), student.getTotalCredit(), student.getEnrolledKurse());
+            newStudent.getEnrolledKurse().removeIf(course1 -> course1.getKursId()==kursId);
             this.studentController.updateStudent(newStudent);
         }
-        this.courseController.emptyCourseStudentList(courseId);
-        return this.teacherController.updateTeacher(newTeacher) == null;
+        this.kursController.emptyKursStudentList(kursId);
+        return this.professorController.updateProfessor(newProfessor) == null;
     }
 
     /**
      *
-     * @return getSortCoursesByName() from course controller;
+     * @return getSortierteKurseByName() vom KursController;
      */
-    public Iterable<Course> getSortCoursesByName(){
-        return this.courseController.getSortCoursesByName();
+    public Iterable<Kurs> getSortierteKurseByName(){
+        return this.kursController.getSortierteKurseByName();
+    }
+
+    /**
+     * @param maxCredit maximale Anzahl von ECTS, die ein Kurs haben kann
+     * @return getGefilterteKurseByCreditsMax vom KursController
+     */
+    public Iterable<Kurs> getGefilterteKurseByCreditsMax(int maxCredit){
+        return this.kursController.getGefilterteKurseByCreditsMax(maxCredit);
+    }
+
+    /**
+     * @param minCredit minimale Anzahl von ECTS, die ein Kurs haben kann
+     * @return getGefilterteKurseByCreditsMin vom KursController
+     */
+    public Iterable<Kurs> getGefilterteKurseByCreditsMin(int minCredit){
+        return this.kursController.getGefilterteKurseByCreditsMin(minCredit);
     }
 
     /**
      *
-     * @param maxCredit max amount of credit
-     * @return getFilteredCoursesByCreditsMax from course controller
+     * @return getSortiertStudentenByName() vom StudentController;
      */
-    public Iterable<Course> getFilteredCoursesByCreditsMax(int maxCredit){
-        return this.courseController.getFilteredCoursesByCreditsMax(maxCredit);
-    }
-
-    /**
-     * '
-     * @param minCredit min amount of credit
-     * @return getFilteredCoursesByCreditsMin from course controller
-     */
-    public Iterable<Course> getFilteredCoursesByCreditsMin(int minCredit){
-        return this.courseController.getFilteredCoursesByCreditsMin(minCredit);
-    }
-
-    /**
-     *
-     * @return getSortStudentsByName() from student controller;
-     */
-    public Iterable<Student> getSortStudentsByName() {
-        return this.studentController.getSortStudentsByName();
+    public Iterable<Student> getSortiertStudentenByName() {
+        return this.studentController.getSortiertStudentenByName();
     }
 
     /**
@@ -166,8 +152,8 @@ public class MainController {
      * @param maxCredit max amount of credit
      * @return getFilteredStudentsByCreditsMax from student controller
      */
-    public Iterable<Student> getFilteredStudentsByCreditsMax(int maxCredit){
-        return this.studentController.getFilteredStudentsByCreditsMax(maxCredit);
+    public Iterable<Student> getGefilterteStudentenByCreditsMax(int maxCredit){
+        return this.studentController.getGefilterteStudentenByCreditsMax(maxCredit);
     }
 
     /**
@@ -175,7 +161,7 @@ public class MainController {
      * @param minCredit min amount of credit
      * @return getFilteredStudentsByCreditsMin from student controller
      */
-    public Iterable<Student> getFilteredStudentsByCreditsMin(int minCredit){
-        return this.studentController.getFilteredStudentsByCreditsMin(minCredit);
+    public Iterable<Student> getGefilterteStudentenByCreditsMin(int minCredit){
+        return this.studentController.getGefilterteStudentenByCreditsMin(minCredit);
     }
 }

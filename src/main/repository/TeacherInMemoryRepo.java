@@ -1,6 +1,6 @@
 package main.repository;
 import main.model.Teacher;
-import main.exceptions.RepositoryExceptions.TeacherRepoExceptions;
+import main.exceptions.RepositoryExceptions.ProfessorRepoExceptions;
 
 import java.util.List;
 
@@ -17,18 +17,18 @@ public class TeacherInMemoryRepo implements CrudRepository<Teacher>{
     /**
      * @param id -the id of the entity to be returned id must not be null
      * @return the entity with the specified id or null if there is no entity with the given id
-     * @throws TeacherRepoExceptions if the id is null or teacher list is empty
+     * @throws ProfessorRepoExceptions if the id is null or teacher list is empty
      */
     @Override
     public Teacher findOne(Long id) {
 
         if (teacher.isEmpty())
         {
-            throw new TeacherRepoExceptions("Teacher list is empty");
+            throw new ProfessorRepoExceptions("Teacher list is empty");
         }
         if(id==null)
         {
-            throw new TeacherRepoExceptions("Id can't be null");
+            throw new ProfessorRepoExceptions("Id can't be null");
         }
         else
         {
@@ -71,14 +71,14 @@ public class TeacherInMemoryRepo implements CrudRepository<Teacher>{
     /**
      * @param entity entity must be not null
      * @return the removed entity or null if there is no entity with the given id
-     * @throws TeacherRepoExceptions if teacher list is empty
+     * @throws ProfessorRepoExceptions if teacher list is empty
      */
     @Override
     public Teacher delete(Teacher entity) {
 
         if(teacher.isEmpty())
         {
-            throw new TeacherRepoExceptions("Teacher list is empty");
+            throw new ProfessorRepoExceptions("Teacher list is empty");
         }
         else
         {
