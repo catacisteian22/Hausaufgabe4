@@ -13,7 +13,7 @@ public class KursInMemoryRepo implements CrudRepository<Kurs>{
 
     private List<Kurs> kurse;
 
-    public KursInMemoryRepo(List<Kurs> courses) {
+    public KursInMemoryRepo(List<Kurs> kurse) {
         this.kurse = kurse;
     }
 
