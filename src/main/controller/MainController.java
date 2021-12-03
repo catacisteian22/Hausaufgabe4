@@ -38,7 +38,7 @@ public class MainController {
         Boolean kursAddedToStudent = this.studentController.addKursToStudent(studentId, kurs);
         Boolean studentAddedToKurs = this.kursController.addStudentToKurs(kursId, student);
 
-        return kursAddedToStudent | studentAddedToKurs;
+        return studentAddedToKurs | kursAddedToStudent;
     }
 
     /**

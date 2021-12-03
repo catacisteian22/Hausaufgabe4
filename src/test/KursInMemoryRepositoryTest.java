@@ -83,7 +83,7 @@ class KursInMemoryRepositoryTest {
     }
 
     @Test
-    void addStudentToCourse() {
+    void addStudentToKurs() {
         List<Long> listStudentsKurse1 = new ArrayList<>();
         List<Long> listStudentsKurse2 = new ArrayList<>();
         List<Long> listStudentsKurse3 = new ArrayList<>();

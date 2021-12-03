@@ -1,8 +1,5 @@
 package main.repository;
 
-/**
- * @author sncam
- */
 public interface CrudRepository<E> {
     /**
      * @param id -the id of the entity to be returned id must not be null

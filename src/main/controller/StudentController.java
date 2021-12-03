@@ -1,10 +1,12 @@
 package main.controller;
 
 import main.model.Kurs;
+import main.model.Person;
 import main.model.Student;
 import main.exceptions.ControllerExceptions.ControllerExceptions;
 import main.repository.CrudRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class StudentController {
@@ -55,7 +57,7 @@ public class StudentController {
      */
     public List<Student> getSortiertStudentenByName() {
         List<Student> studentList = (List<Student>) this.repository.findAll();
-        return studentList.stream().sorted((Student s1, Student s2) -> s1.getLastName().compareTo(s2.getLastName())).toList();
+        return studentList.stream().sorted(Comparator.comparing(Person::getLastName)).toList();
     }
 
     /**
